@@ -6,7 +6,7 @@
 
 ## Status
 #### 1. Homework
-1. [ ] Homework 1
+1. [x] Homework 1
 2. [ ] Homework 2
 3. [ ] Homework 3
 4. [ ] Homework 4

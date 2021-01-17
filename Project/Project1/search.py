@@ -87,11 +87,11 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    max_depth = 8
     # 0. Initialize the search tree using the initial state of the problem
     start_state = problem.getStartState()
     fringe = util.Stack()
     fringe.push((start_state, []))
+    closed_set = set();
     print("Start of depth first search")
     while True:
       # 1. If there is no candidate for expantion then return false
@@ -100,8 +100,6 @@ def depthFirstSearch(problem):
         return []
       # 2. Choose a leaf node for expantion according to stratgy
       leaf = fringe.pop()
-      if len(leaf[1]) > max_depth:
-        continue
       # 3. If the node contains a goal state then return the corresponding
       #    solution
       if problem.isGoalState(leaf[0]):
@@ -109,13 +107,16 @@ def depthFirstSearch(problem):
         return leaf[1]
       # 4. Else expand the node and add the resulting nodes to the search tree
       else:
-        print("Iteration depth: " + str(len(leaf[1])))
-        successors = problem.getSuccessors(leaf[0])
-        for successor in successors:
-          fringe_terminal_state = successor[0]
-          fringe_solution = leaf[1].copy()
-          fringe_solution.append(successor[1])
-          fringe.push((fringe_terminal_state, fringe_solution ))
+        if leaf[0] in closed_set:
+          continue;
+        else:
+          closed_set.add(leaf[0])
+          successors = problem.getSuccessors(leaf[0])
+          for successor in successors:
+            fringe_terminal_state = successor[0]
+            fringe_solution = leaf[1].copy()
+            fringe_solution.append(successor[1])
+            fringe.push((fringe_terminal_state, fringe_solution ))
 
     util.raiseNotDefined()
 

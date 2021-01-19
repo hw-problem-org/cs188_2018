@@ -123,11 +123,73 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    # 0. Initialize the search tree using the initial state of the problem
+    start_state = problem.getStartState()
+    fringe = util.Queue()
+    fringe.push((start_state, []))
+    closed_set = set();
+    print("Start of breadth first search")
+    while True:
+      # 1. If there is no candidate for expantion then return false
+      if fringe.isEmpty():
+        print("End of breadth first search(FAILED)")
+        return []
+      # 2. Choose a leaf node for expantion according to stratgy
+      leaf = fringe.pop()
+      # 3. If the node contains a goal state then return the corresponding
+      #    solution
+      if problem.isGoalState(leaf[0]):
+        print("End of breadth first search(SUCCEEDED)")
+        return leaf[1]
+      # 4. Else expand the node and add the resulting nodes to the search tree
+      else:
+        if leaf[0] in closed_set:
+          continue;
+        else:
+          closed_set.add(leaf[0])
+          successors = problem.getSuccessors(leaf[0])
+          for successor in successors:
+            fringe_terminal_state = successor[0]
+            fringe_solution = leaf[1].copy()
+            fringe_solution.append(successor[1])
+            fringe.push((fringe_terminal_state, fringe_solution ))
+
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    # 0. Initialize the search tree using the initial state of the problem
+    start_state = problem.getStartState()
+    fringe = util.PriorityQueue()
+    fringe.push((start_state, [], 0),0)
+    closed_set = set();
+    print("Start of uniform cost search")
+    while True:
+      # 1. If there is no candidate for expantion then return false
+      if fringe.isEmpty():
+        print("End of uniform cost search(FAILED)")
+        return []
+      # 2. Choose a leaf node for expantion according to stratgy
+      leaf = fringe.pop()
+      # 3. If the node contains a goal state then return the corresponding
+      #    solution
+      if problem.isGoalState(leaf[0]):
+        print("End of uniform cost search(SUCCEEDED)")
+        return leaf[1]
+      # 4. Else expand the node and add the resulting nodes to the search tree
+      else:
+        if leaf[0] in closed_set:
+          continue;
+        else:
+          closed_set.add(leaf[0])
+          successors = problem.getSuccessors(leaf[0])
+          for successor in successors:
+            fringe_terminal_state = successor[0]
+            fringe_solution = leaf[1].copy()
+            fringe_solution.append(successor[1])
+            fringe_cost = leaf[2] + successor[2]
+            fringe.push((fringe_terminal_state, fringe_solution, fringe_cost), fringe_cost)
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -140,8 +202,39 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+    # 0. Initialize the search tree using the initial state of the problem
+    start_state = problem.getStartState()
+    fringe = util.PriorityQueue()
+    fringe.push((start_state, [], 0), heuristic(start_state, problem))
+    closed_set = set();
+    print("Start of A* search")
+    while True:
+      # 1. If there is no candidate for expantion then return false
+      if fringe.isEmpty():
+        print("End of A* search(FAILED)")
+        return []
+      # 2. Choose a leaf node for expantion according to stratgy
+      leaf = fringe.pop()
+      # 3. If the node contains a goal state then return the corresponding
+      #    solution
+      if problem.isGoalState(leaf[0]):
+        print("End of A* search(SUCCEEDED)")
+        return leaf[1]
+      # 4. Else expand the node and add the resulting nodes to the search tree
+      else:
+        if leaf[0] in closed_set:
+          continue;
+        else:
+          closed_set.add(leaf[0])
+          successors = problem.getSuccessors(leaf[0])
+          for successor in successors:
+            fringe_terminal_state = successor[0]
+            fringe_solution = leaf[1].copy()
+            fringe_solution.append(successor[1])
+            fringe_cost = leaf[2] + successor[2]
+            fringe.push((fringe_terminal_state, fringe_solution, fringe_cost),
+                         fringe_cost + heuristic(fringe_terminal_state, problem))
     util.raiseNotDefined()
-
 
 # Abbreviations
 bfs = breadthFirstSearch

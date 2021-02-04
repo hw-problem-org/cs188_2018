@@ -18,8 +18,7 @@
 10. [ ] Homework 10
 11. [ ] Homework 11
 #### 2. Project
-1. [ ] Project 1
+1. [x] Project 1
 2. [ ] Project 2
 3. [ ] Project 3
 4. [ ] Project 4
-5. [ ] Project 5

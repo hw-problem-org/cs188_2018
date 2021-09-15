@@ -7,10 +7,5 @@
 ## Status
 #### 1. Homework
 1. [x] Homework 1
-2. [ ] Homework 4
-3. [ ] Homework 5
-4. [ ] Homework 6
-5. [ ] Homework 7
-6. [ ] Homework 8
 #### 2. Project
 1. [x] Project 1
